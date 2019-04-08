@@ -1,0 +1,11 @@
+[
+	{"id": 1, "AssetId": "SHD-002323", "AssetName": "Monitor", "PurchasedDate": "10 Jun 2018", "DamagedDate": "10 Jun 2018", "AssignedDate": "09 Jun 2018", "AssignedTo": "Chris", "Cost": "100 GBP", "Supplier": "Dell"},
+	{"id": 2, "AssetId": "SHD-002323", "AssetName": "Monitor", "PurchasedDate": "10 Jun 2018", "DamagedDate": "10 Jun 2018", "AssignedDate": "09 Jun 2018", "AssignedTo": "Chris", "Cost": "100 GBP", "Supplier": "Dell"},
+	{"id": 3, "AssetId": "SHD-002323", "AssetName": "Monitor", "PurchasedDate": "10 Jun 2018", "DamagedDate": "10 Jun 2018", "AssignedDate": "09 Jun 2018", "AssignedTo": "Chris", "Cost": "100 GBP", "Supplier": "Dell"},
+	{"id": 4, "AssetId": "SHD-002323", "AssetName": "Monitor", "PurchasedDate": "10 Jun 2018", "DamagedDate": "10 Jun 2018", "AssignedDate": "09 Jun 2018", "AssignedTo": "Chris", "Cost": "100 GBP", "Supplier": "Dell"},
+	{"id": 5, "AssetId": "SHD-002323", "AssetName": "Monitor", "PurchasedDate": "10 Jun 2018", "DamagedDate": "10 Jun 2018", "AssignedDate": "09 Jun 2018", "AssignedTo": "Chris", "Cost": "100 GBP", "Supplier": "Dell"},
+	{"id": 6, "AssetId": "SHD-002323", "AssetName": "Monitor", "PurchasedDate": "10 Jun 2018", "DamagedDate": "10 Jun 2018", "AssignedDate": "09 Jun 2018", "AssignedTo": "Chris", "Cost": "100 GBP", "Supplier": "Dell"},
+	{"id": 7, "AssetId": "SHD-002323", "AssetName": "Monitor", "PurchasedDate": "10 Jun 2018", "DamagedDate": "10 Jun 2018", "AssignedDate": "09 Jun 2018", "AssignedTo": "Chris", "Cost": "100 GBP", "Supplier": "Dell"},
+	{"id": 8, "AssetId": "SHD-002323", "AssetName": "Monitor", "PurchasedDate": "10 Jun 2018", "DamagedDate": "10 Jun 2018", "AssignedDate": "09 Jun 2018", "AssignedTo": "Chris", "Cost": "100 GBP", "Supplier": "Dell"},
+	{"id": 9, "AssetId": "SHD-002323", "AssetName": "Monitor", "PurchasedDate": "10 Jun 2018", "DamagedDate": "10 Jun 2018", "AssignedDate": "09 Jun 2018", "AssignedTo": "Chris", "Cost": "100 GBP", "Supplier": "Dell"}
+]

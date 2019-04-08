@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <meta http-equiv="X-UA-Compatible" content="IE=11" />
+    <title>AssetManagement</title>
+	<script src="scripts/jquery-2.2.4.js"></script>
+	<script src="scripts/jquery.cookie.js"></script>
+	<script src="scripts/angular.js"></script>
+	<script src="scripts/angular-cookies.js"></script>
+	<script src="scripts/angular-route.js"></script>
+	<script src="scripts/angular_1_router.js"></script>
+	<script src="scripts/bootstrap.js"></script>
+	<script src="app.module.js"></script>
+	<script src="appController.js"></script>
+	<script src="app.service.js"></script>
+	<link href="css/bootstrap.min.css" rel="stylesheet"/>
+	<link href="css/app.css" rel="stylesheet"/>
+</head>
+<body ng-app="AssetManagementApp">
+	<div ng-controller="appController">
+		<div class="col-lg-12 col-md-12">
+			<div class="row">
+				<h2 class="col-lg-2" ng-if="!showAllAssets && !viewAssetDetails && !assetAddition"><b>List of Assets</b></h2>
+				<h2 class="col-lg-2" ng-if="viewAssetDetails && !assetAddition"><b>View Asset</b></h2>
+				<h2 class="col-lg-2" ng-if="assetAddition"><b>Add Asset</b></h2>
+				<div class="col-lg-10" style="padding:20px;padding-left:0px;">
+					<span class="btn btn-link" ng-if="!showAllAssets && !viewAssetDetails && !assetAddition" ng-click="backToTableView()">Back to table view</span>
+					<span class="btn btn-link" ng-if="!viewAssetDetails" ng-click="addAsset()">Add a new asset</span>
+					<span class="btn btn-link" ng-if="showAllAssets" ng-click="viewAllAssets()">All Assets</span>
+					<span ng-if="(viewAssetDetails || assetAddition) && toggleUpdate" class="btn btn-link" ng-click="updateAsset()">Update</span>
+					<span ng-if="(viewAssetDetails || assetAddition) && !toggleUpdate" class="btn btn-link" ng-click="saveAsset()">Save</span>			
+					<span class="btn btn-link" ng-if="(viewAssetDetails || assetAddition)" ng-click="deleteAsset()">Delete</span>
+				</div>
+			</div>
+			<div class="well" ng-if="showAllAssets">
+				<div class="container-fluid">
+					<div class="col-lg-6">
+						<table>
+							<caption>Recently Purchased Assets</caption>
+							<tr>
+								<th>Asset Id</th>
+								<th>Asset Name</th>
+								<th>Purchased Date</th>
+							</tr>
+							<tr ng-repeat="assets in listOfAssets track by $index">
+								<td>{{assets.AssetId}}</td>
+								<td>{{assets.AssetName}}</td>
+								<td>{{assets.PurchasedDate}}</td>
+							</tr>
+						</table>
+					</div>
+					<div class="col-lg-6">
+						<table>
+							<caption>Assets Allocated To Me</caption>
+							<tr>
+								<th>Asset Id</th>
+								<th>Asset Name</th>
+								<th>Assigned Date</th>
+							</tr>
+							<tr ng-repeat="assets in listOfAssets track by $index">
+								<td>{{assets.AssetId}}</td>
+								<td>{{assets.AssetName}}</td>
+								<td>{{assets.AssignedDate}}</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="container-fluid">
+					<div class="col-lg-6">
+						<table>
+							<caption>Recently Damaged Assets</caption>
+							<tr>
+								<th>Asset Id</th>
+								<th>Asset Name</th>
+								<th>Damaged Date</th>
+							</tr>
+							<tr ng-repeat="assets in listOfAssets track by $index">
+								<td>{{assets.AssetId}}</td>
+								<td>{{assets.AssetName}}</td>
+								<td>{{assets.DamagedDate}}</td>
+							</tr>
+						</table>
+					</div>
+					<div class="col-lg-6">
+						<table>
+							<caption>Recently Assigned Assets</caption>
+							<tr>
+								<th>Asset Id</th>
+								<th>Asset Name</th>
+								<th>Damaged Date</th>
+								<th>Assigned To</th>
+							</tr>
+							<tr ng-repeat="assets in listOfAssets track by $index">
+								<td>{{assets.AssetId}}</td>
+								<td>{{assets.AssetName}}</td>
+								<td>{{assets.DamagedDate}}</td>
+								<td>{{assets.AssignedTo}}</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="well" ng-if="!showAllAssets && !viewAssetDetails">
+				<div class="container">
+					<div class="list-group" ng-repeat="assets in listOfAssets track by $index">
+						<div class="col-lg-12" ng-mouseover="open[$index] = true" ng-mouseleave="open[$index] = false">
+							<div class="col-lg-8">
+								<a class="list-group-item">
+								<h4 class="list-group-item-heading">{{assets.AssetName}} purchased on {{assets.PurchasedDate}}</h4>
+								<p class="list-group-item-text">Purchased by {{assets.AssignedTo}} at the cost of {{assets.Cost}} from {{assets.Supplier}}</p>
+								</a>
+							</div>
+							<div class="col-lg-4" ng-show="open[$index]" style="position:relative;right:25%;">
+								<span class="btn btn-link" ng-click="viewAsset(assets.id, true)">Update</span>
+								<span class="btn btn-link" ng-click="viewAsset(assets.id)">View</span>
+								<span class="btn btn-link" ng-click="deleteAsset($index)">Delete</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="well" ng-if="viewAssetDetails || assetAddition">
+				<div class="container">
+					<form name="myForm" novalidate>
+					
+					<p>Asset Id:
+					<span ng-if="toggleUpdate">{{assetDetails.AssetId}}</span>
+					<input ng-if="!toggleUpdate" type="text" name="assetId" ng-model="assetDetails.AssetId" required>
+					<span ng-show="myForm.assetId.$dirty && myForm.assetId.$invalid">
+					<span style="color:red" ng-show="myForm.assetId.$error.required">Asset Id is required.</span>
+					</span>
+					</p>
+					
+					<p>Purchased Date:
+					<span ng-if="toggleUpdate">{{assetDetails.PurchasedDate}}</span>
+					<input ng-if="!toggleUpdate" type="text" name="purchasedDate" ng-model="assetDetails.PurchasedDate" required>
+					<span style="color:red" ng-show="myForm.purchasedDate.$dirty && myForm.purchasedDate.$invalid">
+					<span ng-show="myForm.purchasedDate.$error.required">Purchased Date is required.</span>
+					</span>
+					</p>
+
+					<p>Assigned To:
+					<span ng-if="toggleUpdate">{{assetDetails.AssignedTo}}</span>
+					<input ng-if="!toggleUpdate" type="text" name="assignedTo" ng-model="assetDetails.AssignedTo" required>
+					<span style="color:red" ng-show="myForm.assignedTo.$dirty && myForm.assignedTo.$invalid">
+					<span ng-show="myForm.assignedTo.$error.required">Assigned To is required.</span>
+					</span>
+					</p>
+
+					<p>Cost:
+					<span ng-if="toggleUpdate">{{assetDetails.Cost}}</span>
+					<input ng-if="!toggleUpdate" type="text" name="cost" ng-model="assetDetails.Cost" required>
+					<span style="color:red" ng-show="myForm.cost.$dirty && myForm.cost.$invalid">
+					<span ng-show="myForm.cost.$error.required">Cost is required.</span>
+					</span>
+					</p>
+
+					<p>Supplier:
+					<span ng-if="toggleUpdate">{{assetDetails.Supplier}}</span>
+					<input ng-if="!toggleUpdate" type="text" name="supplier" ng-model="assetDetails.Supplier" required>
+					<span style="color:red" ng-show="myForm.supplier.$dirty && myForm.supplier.$invalid">
+					<span ng-show="myForm.supplier.$error.required">Supplier is required.</span>
+					</span>
+					</p>
+
+					<p>Asset Name:
+					<span ng-if="toggleUpdate">{{assetDetails.AssetName}}</span>
+					<input ng-if="!toggleUpdate" type="text" name="assetName" ng-model="assetDetails.AssetName" required>
+					<span style="color:red" ng-show="myForm.assetName.$dirty && myForm.assetName.$invalid">
+					<span ng-show="myForm.assetName.$error.required">Asset Name is required.</span>
+					</span>
+					</p>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
